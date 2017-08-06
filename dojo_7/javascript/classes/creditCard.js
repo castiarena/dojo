@@ -5,8 +5,16 @@ const Payments = require('./payments');
  * @constructor
  */
 class CreditCard extends Payments{
-    constructor(amount){
+    constructor(amount, interests = 0){
         super(amount);
+        this.interests = (interests / 100) + 1;
+    }
+    contribute(contribute) {
+        this.used.plus(contribute);
+        this.amount.through(this.interests);
+    }
+    contributed() {
+        return this.amount.value();
     }
 }
 

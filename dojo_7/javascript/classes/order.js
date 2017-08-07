@@ -10,7 +10,7 @@ class Order{
     contributeWith(payments){
         let amount = this.amount;
         payments.forEach( p => {
-            p.contribute(amount)
+            p.contribute(amount);
         });
     }
 }

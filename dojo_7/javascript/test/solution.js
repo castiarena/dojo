@@ -32,7 +32,7 @@ describe("checkout - pay orders with multiple payments", () => {
             const order = new Order(new Amount(1000));
             const creditCard = new CreditCard(new Amount(1000), 15);
             order.contributeWith([creditCard]);
-            expect(creditCard.contributed()).to.be.equal(1150);
+            expect(creditCard.contributed()).to.be.equal(1000 * 1.15);
         });
     });
 

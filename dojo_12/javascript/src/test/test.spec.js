@@ -1,34 +1,50 @@
-import { expect, assert } from 'chai';
-import Dojo from '../main/Dojo';
+import {expect} from 'chai';
+import Classroom from "../main/Classroom/Classroom";
+import CAU from "../main/CAU";
+import People from "../main/People";
+import Miniatures from "../main/Miniatures";
+import LabB from "../main/Classroom/LabB";
+import LabA from "../main/Classroom/LabA";
 
 describe('dojo', () => {
-  it('should return the correct sensei name', () => {
-    const dojo = new Dojo({
-      sensei: 'Diego'
+    it('se solicita un aula para 10 personas y se espera que la solicitud devuelva un aula habilitada', () => {
+        const cau = new CAU([
+            new Classroom('Lab B', 10),
+            new Classroom('Lab A', 2)
+        ]);
+        const enabledClassroom = cau.assignClassroom(
+            new People(10)
+        );
+
+        expect(enabledClassroom.printLabel()).to.be.equal('Aula: Lab B');
     });
 
-    const expected = '{"sensei":"Diego"}';
+    it('se solicita un aula para 30 personas y se espera que la solicitud falle', () => {
+        const cau = new CAU([
+            new Classroom('Lab A', 28),
+            new Classroom('Lab B', 10)
+        ]);
+        const emptyClassroom = cau.assignClassroom(
+            new People(30)
+        );
 
-    expect(dojo.toJSON()).to.be.equal(expected);
-  });
+        expect(emptyClassroom.printLabel()).to.be.equal('No hay aula disponible. Despedidoooooooo');
+    });
 
-  it("it should not be equal", () => {	
-    const dojoSouth = new Dojo({ sensei: 'Diego' });
-    const dojoNorth = new Dojo({ sensei: 'Juan' });
+    it('La gente de arquitectura necesita además de capacidad en el aula, que la misma ' +
+        'cumpla con cierta cantidad de metros cuadrados para poder exponer sus maquetas', () => {
 
-    assert.equal(dojoSouth.isEqual(dojoNorth), false);
-  });
+        const cau = new CAU([
+            new LabA(),
+            new LabB()
+        ]);
 
-  it("it should be equal", () => {	
-    const dojoSouth = new Dojo({ sensei: 'Diego' });
-    const dojoNorth = new Dojo({ sensei: 'Diego' });
+        const enabledClassroom = cau.assignClassroom(
+            new People(10),
+            new Miniatures(300)
+        );
 
-    assert.equal(dojoSouth.isEqual(dojoNorth), true);
-  });	
-  
-  it("it should throw an exception", () => {	
-    const dojito = new Dojo();
+        expect(enabledClassroom.printLabel()).to.be.equal('Aula: Lab B');
 
-    assert.throws(() => {	dojito.explode() });	
-  });
+    });
 });

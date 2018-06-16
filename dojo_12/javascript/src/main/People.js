@@ -1,11 +1,5 @@
-class People {
-    constructor(number) {
-        this.number = number;
-    }
+import Magnitude from "./Magnitude";
 
-    gte(number){
-        return this.number <= number;
-    }
-}
+class People extends Magnitude{}
 
 export default People;

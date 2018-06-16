@@ -1,22 +1,30 @@
-import NoMiniatures from "../NoMiniatures";
 
 class Classroom {
-    constructor(courseName, limit, meters) {
-        this.courseName = courseName;
-        this.limit = limit;
-        this.meters = meters;
+    constructor(labelCourseName, peopleLimit) {
+        this.peopleLimit = peopleLimit;
+        this.label = labelCourseName;
+        this.miniaturesLimit = 0;
+        this.computersLimit = 0;
     }
 
-    canContainPersons(persons){
-        return persons.gte(this.limit);
+    canContainPeople(persons){
+        return persons.greaterOrEquals(this.peopleLimit);
     }
 
-    canContainMiniatures(miniatures = new NoMiniatures()){
-        return miniatures.gte(this.meters);
+    canContainMiniatures(miniatures){
+        return miniatures.greaterOrEquals(this.miniaturesLimit);
     }
 
-    printLabel() {
-        return `Aula: ${this.courseName}`;
+    canContainComputers(computers){
+        return computers.greaterOrEquals(this.computersLimit);
+    }
+
+    printLabelForVident() {
+        return this.label.printForVident();
+    }
+
+    printLabelForBlind() {
+        return this.label.printForBlind();
     }
 }
 

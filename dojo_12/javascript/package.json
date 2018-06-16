@@ -13,6 +13,7 @@
   "devDependencies": {
     "babel-cli": "^6.26.0",
     "babel-preset-env": "^1.6.1",
+    "braille": "^1.1.0",
     "istanbul": "^1.1.0-alpha.1"
   },
   "dependencies": {

@@ -1,12 +1,5 @@
+import Magnitude from "./Magnitude";
 
-class Miniatures {
-    constructor(meters) {
-        this.meters = meters;
-    }
-
-    gte(meters){
-        return this.meters <= meters;
-    }
-}
+class Miniatures extends Magnitude{}
 
 export default Miniatures;

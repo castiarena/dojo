@@ -1,0 +1,19 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Link tests should be in hovered status 1`] = `
+"<a href=\\"google.com\\" class=\\"link link-normal\\">
+            Google page
+        </a>"
+`;
+
+exports[`Link tests should be in hovered status 2`] = `
+"<a href=\\"google.com\\" class=\\"link link-hovered\\">
+            Google page
+        </a>"
+`;
+
+exports[`Link tests should be in normal status after mouse enter and leave 1`] = `
+"<a href=\\"google.com\\" class=\\"link link-normal\\">
+            Google page
+        </a>"
+`;

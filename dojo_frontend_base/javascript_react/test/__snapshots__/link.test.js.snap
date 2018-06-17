@@ -1,0 +1,12 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Link tests should be in normal status 1`] = `
+<a
+  className="link-normal"
+  href="google.com.ar"
+  onMouseEnter={[Function]}
+  onMouseLeave={[Function]}
+>
+  Google argentina
+</a>
+`;

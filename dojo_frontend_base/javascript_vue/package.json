@@ -1,0 +1,42 @@
+{
+  "name": "javascript_vuew",
+  "version": "1.0.0",
+  "description": "Bateria base para testear desde vuew",
+  "main": "index.js",
+  "dependencies": {
+    "vue": "^2.5.16"
+  },
+  "devDependencies": {
+    "@babel/core": "7.0.0-beta.51",
+    "@babel/preset-env": "7.0.0-beta.51",
+    "babel-core": "7.0.0-bridge.0",
+    "babel-jest": "23.0.1",
+    "jest": "23.1.0",
+    "regenerator-runtime": "0.11.1",
+    "vue-jest": "^2.6.0",
+    "vue-template-compiler": "^2.5.16"
+  },
+  "scripts": {
+    "test": "jest",
+    "test:watch": "jest --watch"
+  },
+  "author": "Agustin Castiarena <castiarena@gmail.com>",
+  "license": "ISC",
+  "jest": {
+    "verbose": true,
+    "coverageReporters": [
+      "json",
+      "text",
+      "lcov"
+    ],
+    "moduleFileExtensions": [
+      "js",
+      "json",
+      "vue"
+    ],
+    "transform": {
+      "^.+\\.js$": "babel-jest",
+      "^.+\\.vue$": "vue-jest"
+    }
+  }
+}

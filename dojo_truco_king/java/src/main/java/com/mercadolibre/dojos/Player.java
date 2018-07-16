@@ -1,30 +1,42 @@
 package com.mercadolibre.dojos;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class Player {
 
     private List<Card> cards;
-    private String name;
+    private boolean canPlay;
 
-    public Player(String name, List<Card> cards) {
-        this.name = name;
+    public Player(List<Card> cards) {
         this.cards = cards;
+        this.canPlay = false;
+    }
+
+    public void iCanNotPlay(){
+        canPlay = false;
+    }
+
+    public void iCanPlay(){
+        canPlay = true;
     }
 
     public Card throwCard(Card cardToPlay) {
-        List<Card> filterCard = this.cards.stream()
-                .filter(it -> it.equals(cardToPlay))
-                .collect(Collectors.toList());
+        boolean canPlayAndExistCard = this.cards.stream()
+            .anyMatch(
+                card -> card.equals(cardToPlay)
+            ) && this.canPlay;
 
-        this.cards.remove(cardToPlay);
-        try {
-            return filterCard.get(0);
-        }catch (Exception exeption) {
+        return canPlayAndExistCard
+                ? cardToPlay
+                : new CardNotFound();
+    }
 
-            return new CardNotFound();
-        }
+    public boolean equals(Player player){
+        return this == player;
+    }
+
+    public boolean hasCard(Card cardToCompare) {
+        return this.cards.stream()
+                .anyMatch(card -> card.equals(cardToCompare));
     }
 }

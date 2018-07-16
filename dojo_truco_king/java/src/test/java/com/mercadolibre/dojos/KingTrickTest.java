@@ -5,8 +5,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
-import java.util.List;
-
 /**
  * Tests for the dojo.
  */
@@ -26,25 +24,26 @@ opcion b- jugador 2 intenta jugar y no puede.
 
 public class KingTrickTest {
 
-	private List<Card> playerBInitialCards() {
-		return new ArrayList<Card>() {
-			{
-				add(new Card("ancho de basto"));
-				add(new Card("4 de ebasto"));
-				add(new Card("7 de basto"));
-			}
-		};
+	Player playerA;
+	Player playerB;
+
+	@Before
+	public void executeBeforeEach(){
+		this.playerA = new Player(
+				new ArrayList<Card>(){{
+					add(new UnoDeEspada());
+					add(new TresDeEspadas());
+					add(new CuatroDeCopas());
+				}});
+
+		this.playerB = new Player(
+				new ArrayList<Card>(){{
+					add(new UnoDeBasto());
+					add(new CuatroDeBasto());
+					add(new SieteDeBasto());
+				}});
 	}
 
-	private List<Card> playerAInitialCards() {
-		return new ArrayList<Card>() {
-			{
-				add(new Card("ancho de espadas"));
-				add(new Card("3 de espadas"));
-				add(new Card("4 de copas"));
-			}
-		};
-	}
 	/**
 	 * el jugador mano tiene el ancho de espadas, 3 de espadas, 4 de copas
 	 * el jugador 2 tiene el ancho de basto, 4 de basto y 7 de basto
@@ -54,15 +53,15 @@ public class KingTrickTest {
 	 */
 	@Test
 	public void onePlayerWinARoundAndThrowOneCard  () {
-		Player playerA = new Player("playerA", playerAInitialCards());
-		Player playerB = new Player("playerB", playerBInitialCards());
+		playerA.throwCard(new UnoDeEspada());
+		playerB.throwCard(new CuatroDeBasto());
 
-		playerA.throwCard(new Card("ancho de espadas"));
-		playerB.throwCard(new Card("4 de basto"));
+		Card tresDeEspadas = new TresDeEspadas();
 
-		Card tresDeEspadas = new Card("3 de espadas");
+		Assert.assertTrue( tresDeEspadas.equals(
+				playerA.throwCard(tresDeEspadas)
+		));
 
-		Assert.assertEquals(tresDeEspadas , playerA.throwCard(tresDeEspadas));
 	}
 
     /**
@@ -74,15 +73,21 @@ public class KingTrickTest {
      */
     @Test
     public void onePlayerLoseARoundAndTryToThrowA  () {
-        Player playerA = new Player("playerA", playerAInitialCards());
-        Player playerB = new Player("playerB", playerBInitialCards());
+		Round round1 = new Round(playerA, playerB);
 
-        playerA.throwCard(new Card("ancho de espadas"));
-        playerB.throwCard(new Card("4 de basto"));
+		try {
+			round1.playerThrowFirstCard( playerA, new UnoDeEspada() );
+		} catch (Exception e) {
+			Assert.assertEquals("Esto no deberia pasar", "");
+		}
 
-        Card tresDeEspadas = new Card("3 de espadas");
+		Round round2 = round1.playerThrowLastCard( playerB, new CuatroDeBasto() );
 
-        Assert.assertEquals(new CardNotFound() , playerB.throwCard(tresDeEspadas));
+		try {
+			round2.playerThrowFirstCard(playerB, new TresDeEspadas() );
+		} catch (Exception e) {
+			Assert.assertEquals(e.getMessage(), "No sos mano");
+		}
     }
 	
 }

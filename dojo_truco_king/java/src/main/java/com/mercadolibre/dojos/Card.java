@@ -1,18 +1,24 @@
 package com.mercadolibre.dojos;
 
+import java.util.List;
+
 public class Card {
+    protected Integer number;
+    protected String wroteNumber;
+    protected List<Card> winnerCards;
 
     protected String name;
-
-    public Card() {
-        this.name = "no name";
+    public boolean equals(Card card) {
+        return this.name.equals(card.name);
     }
 
-    public Card(String name) {
-        this.name = name;
+    private boolean win(Card winnerCard) {
+        return winnerCards.stream()
+            .anyMatch( card -> card.equals(winnerCard)
+        );
     }
 
-    public boolean equals(Object otherCard){
-        return this.name.equals(((Card)otherCard).name);
+    public Card versus(Card versusCard) {
+        return win(versusCard) ? this : versusCard;
     }
 }

@@ -29,14 +29,14 @@ public class KingTrickTest {
 
 	@Before
 	public void executeBeforeEach(){
-		this.playerA = new Player(
+		playerA = new Player(
 				new ArrayList<Card>(){{
 					add(new UnoDeEspada());
 					add(new TresDeEspadas());
 					add(new CuatroDeCopas());
 				}});
 
-		this.playerB = new Player(
+		playerB = new Player(
 				new ArrayList<Card>(){{
 					add(new UnoDeBasto());
 					add(new CuatroDeBasto());

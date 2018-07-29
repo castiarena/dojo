@@ -9,7 +9,6 @@ public class TresDeEspadas extends Card {
             add(new CuatroDeCopas());
             add(new CuatroDeBasto());
             add(new SieteDeBasto());
-            add(new SieteDeBasto());
         }};
     }
 }

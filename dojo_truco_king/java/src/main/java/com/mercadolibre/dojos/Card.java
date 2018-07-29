@@ -3,8 +3,6 @@ package com.mercadolibre.dojos;
 import java.util.List;
 
 public class Card {
-    protected Integer number;
-    protected String wroteNumber;
     protected List<Card> winnerCards;
 
     protected String name;

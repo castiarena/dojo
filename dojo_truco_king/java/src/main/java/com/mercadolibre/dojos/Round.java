@@ -1,55 +1,63 @@
 package com.mercadolibre.dojos;
 
-import java.util.ArrayList;
-import java.util.stream.Collectors;
-
 public class Round {
 
     private Card firstCard;
-    private Card lastCard;
+    private Card secondCard;
+    private Card winnerCard;
+    private Player firstPlayer;
+    private Player secondPlayer;
+    private Player winnerPlayer;
+    private Player looserPlayer;
 
-    private ArrayList<Card> cardsOrdered;
+    private IMove move = new NoneMove();
 
-    private ArrayList<Player> playersOrdered;
-
-    public Round(Player playerStart, Player playerSeccond){
-        cardsOrdered = new ArrayList<>();
-        playersOrdered = new ArrayList<>();
-        playersOrdered.add(playerStart);
-        playersOrdered.add(playerSeccond);
-        playerStart.iCanPlay();
-        playerSeccond.iCanNotPlay();
+    public Round(Player firstPlayer, Player secondPlayer){
+        this.firstPlayer = firstPlayer;
+        this.secondPlayer = secondPlayer;
     }
 
-    public void playerThrowFirstCard( Player player, Card card) throws Exception {
-        if (playersOrdered.get(0) != player) {
-            throw new Exception("No sos mano");
+    public Round playerThrowFirstCard( Player player, Card card) throws NotYourTurnException{
+        if( player.equals(this.secondPlayer) ){
+            throw new NotYourTurnException(player);
         }
 
-        firstCard = player.throwCard(card);
+        this.firstCard = player.throwCard(card);
+        return this;
     }
 
-    public Round playerThrowLastCard(Player player, Card card) {
-        lastCard = player.throwCard(card);
-        Player winner = defineWinner();
-        Player looser = defineLooser(winner);
+    public Round playerThrowSecondCard(Player player, Card card) throws NotYourTurnException{
+        if ( player.equals(this.firstPlayer)) {
+            throw new NotYourTurnException(player);
+        }
 
-        return new Round(winner, looser);
+        this.secondCard = player.throwCard(card);
+
+        this.winnerCard = this.firstCard.versus(this.secondCard);
+        this.winnerPlayer = this.firstPlayer.challengeWinnerByCardOrDefault(this.winnerCard, this.secondPlayer);
+        this.looserPlayer = this.secondPlayer.challengeLooserByCardOrDefault(this.winnerCard, this.firstPlayer);
+
+        this.winnerPlayer.saveWinMove(this.move);
+        return new Round(winnerPlayer, looserPlayer);
     }
 
-    public Player defineWinner(){
-        Card winnerCard = firstCard.versus(lastCard);
-
-        Player winner = playersOrdered.stream().filter(
-                player -> player.hasCard(winnerCard)
-        ).collect(Collectors.toList()).get(0);
-
-        return winner;
+    public String result(){
+        String roundStatusResult = "Ganó " + this.winnerPlayer.print() + ",";
+        roundStatusResult = roundStatusResult + " perdió " + this.looserPlayer.print() + "\n";
+        roundStatusResult = roundStatusResult + "    "+ this.move.print() + "\n";
+        return roundStatusResult;
     }
 
-    public Player defineLooser(Player winner) {
-        return playersOrdered.stream()
-                .filter(player -> !player.equals(winner))
-                .collect(Collectors.toList()).get(0);
+    public Point totalPoints(){
+        return this.winnerPlayer.summaryPoints();
+    }
+
+    public Player challengeWinner(Player playerToChallenge) {
+        return playerToChallenge.equals(this.winnerPlayer) ? playerToChallenge : this.winnerPlayer;
+    }
+
+    public Sing playerPickAMove(Player player, Move move){
+        this.move = move;
+        return player.pickMove(move);
     }
 }

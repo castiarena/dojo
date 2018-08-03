@@ -8,9 +8,8 @@ public class Move implements IMove {
     private Player player;
     protected Point points;
 
-    Move(String name, Player player) {
+    Move(String name) {
         this.name = name;
-        this.player = player;
     }
 
     @Override

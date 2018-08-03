@@ -11,15 +11,23 @@ import java.util.List;
 
 public class Player {
 
-    private List<Card> cards;
+    private List<Card> cards = new ArrayList<>();
     private String name;
-    private ArrayList<Sing> propussedSingList = new ArrayList<>();
-    private ArrayList<Sing> wantSingList = new ArrayList<>();
+    private ArrayList<IMove> wantMoveList = new ArrayList<>();
     private IMove winMove = (IMove) new NoneMove();
 
-    public Player(List<Card> cards, String name) {
-        this.cards = cards;
+    public Player(String name) {
         this.name = name;
+    }
+
+    public void upCards(Card firstCard, Card secondCard, Card thirCard){
+        this.cards.add(firstCard);
+        this.cards.add(secondCard);
+        this.cards.add(thirCard);
+    }
+
+    public Move sing(Move move){
+        return move;
     }
 
     public Card throwCard(Card cardToPlay) {
@@ -51,8 +59,8 @@ public class Player {
         return move;
     }
 
-    public void want(Sing sing){
-        this.wantSingList.add(sing);
+    public void want(IMove sing){
+        this.wantMoveList.add(sing);
     }
 
     public void saveWinMove(IMove move){

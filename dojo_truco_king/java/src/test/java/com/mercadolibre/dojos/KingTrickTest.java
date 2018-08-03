@@ -35,24 +35,21 @@ public class KingTrickTest {
 	 */
 	@Test
 	public void aPlayerWinARoundAndThrowOneCard() throws Exception {
-		Player playerA = new Player(new ArrayList<Card>(){{
-				add(new UnoDeEspada());
-				add(new TresDeEspadas());
-				add(new CuatroDeCopas());
-			}}, "Juan");
-		Player playerB = new Player(new ArrayList<Card>(){{
-				add(new UnoDeBasto());
-				add(new CuatroDeBasto());
-				add(new SieteDeBasto());
-			}}, "Ricardo");
 
-		Round firstRound = new Round(playerA, playerB);
-		firstRound.playerThrowFirstCard(playerA, new UnoDeEspada());
-		firstRound.playerThrowSecondCard(playerB, new CuatroDeBasto());
+		Player juan = new Player("juan");
+		juan.upCards(new UnoDeEspada(), new TresDeEspadas(), new CuatroDeCopas());
+
+		Player ricardo = new Player("ricardo");
+		ricardo.upCards(new UnoDeBasto(), new CuatroDeBasto(), new SieteDeBasto());
+
+		Round firstRound = new Round(juan, ricardo);
+
+		firstRound.playerThrowFirstCard(juan, new UnoDeEspada());
+		firstRound.playerThrowSecondCard(ricardo, new CuatroDeBasto());
 
 		Card tresDeEspadas = new TresDeEspadas();
 
-		Assert.assertTrue( tresDeEspadas.equals(playerA.throwCard(tresDeEspadas)) );
+		Assert.assertTrue( tresDeEspadas.equals(juan.throwCard(tresDeEspadas)) );
 
 	}
 
@@ -63,29 +60,20 @@ public class KingTrickTest {
      * jugador 2 juega el 4 de basto
      opcion b- jugador 2 intenta jugar y no puede.
      */
-    @Test
+    @Test (expected = NotYourTurnException.class)
     public void aPlayerLoseARoundAndTryToThrowA() throws Exception{
-		Player playerA = new Player(new ArrayList<Card>(){{
-				add(new UnoDeEspada());
-				add(new TresDeEspadas());
-				add(new CuatroDeCopas());
-			}}, "Esteban");
-		Player playerB = new Player(new ArrayList<Card>(){{
-				add(new UnoDeBasto());
-				add(new CuatroDeBasto());
-				add(new SieteDeBasto());
-			}}, "Raul");
+		Player esteban = new Player("Esteban");
+		esteban.upCards(new UnoDeEspada(), new TresDeEspadas(), new CuatroDeCopas());
 
-		Round firstRound = new Round(playerA, playerB);
+		Player raul = new Player("Raul");
+		raul.upCards(new UnoDeBasto(), new CuatroDeBasto(), new SieteDeBasto());
 
-		firstRound.playerThrowFirstCard(playerA, new UnoDeEspada());
+		Round firstRound = new Round(esteban, raul);
 
-		Round round2 = firstRound.playerThrowSecondCard(playerB, new CuatroDeBasto());
-		try {
-			round2.playerThrowFirstCard( playerB, new TresDeEspadas() );
-		}catch (NotYourTurnException error){
-			Assert.assertEquals(error.getMessage(), "Tranca Raul, no vas vos");
-		}
+		firstRound.playerThrowFirstCard(esteban, new UnoDeEspada());
+
+		Round round2 = firstRound.playerThrowSecondCard(raul, new CuatroDeBasto());
+		round2.playerThrowFirstCard( raul, new TresDeEspadas() );
     }
 
 	/**
@@ -96,16 +84,11 @@ public class KingTrickTest {
 	 */
 	@Test
 	public void aPlayerWinTheRoundWithOnePoint() throws Exception{
-		Player diego = new Player(new ArrayList<Card>(){{
-			add(new UnoDeEspada());
-			add(new TresDeEspadas());
-			add(new CuatroDeCopas());
-		}}, "Diego");
-		Player juli = new Player(new ArrayList<Card>(){{
-			add(new CuatroDeBasto());
-			add(new SieteDeBasto());
-			add(new UnoDeBasto());
-		}}, "Juli");
+		Player diego = new Player("Diego");
+		diego.upCards(new UnoDeEspada(), new TresDeEspadas(), new CuatroDeCopas());
+
+		Player juli = new Player("Juli");
+		juli.upCards( new CuatroDeBasto(), new SieteDeBasto(), new UnoDeBasto());
 
 		Round firstRound = new Round(diego, juli);
 		firstRound.playerThrowFirstCard(diego, new UnoDeEspada());
@@ -140,18 +123,18 @@ public class KingTrickTest {
 	 */
 	@Test
 	public void aPlayerWinWhitMoveTrick() throws Exception{
-		Player pepe = new Player(new ArrayList<Card>(){{
-			add(new TresDeEspadas()); add(new UnoDeEspada()); add(new SieteDeBasto());
-		}}, "Pepe");
-		Player juan = new Player(new ArrayList<Card>(){{
-			add(new UnoDeBasto()); add(new TresDeCopas()); add(new CuatroDeBasto());
-		}}, "Juan");
+		Player pepe = new Player("Pepe");
+		pepe.upCards(new TresDeEspadas(), new UnoDeEspada(), new SieteDeBasto());
+
+		Player juan = new Player("Juan");
+		juan.upCards(new UnoDeBasto(), new TresDeCopas(), new CuatroDeBasto());
 
 		Round firstRound = new Round(pepe, juan);
 		firstRound.playerThrowFirstCard(pepe, new TresDeEspadas());
+
 		Round secondRound = firstRound.playerThrowSecondCard(juan, new UnoDeBasto());
 
-		IMove trick = new Truco(juan);
+		IMove trick = juan.sing(new Truco());
 		pepe.want(trick);
 
 		secondRound.playerThrowFirstCard(juan, new TresDeCopas());

@@ -7,12 +7,6 @@ import java.util.ArrayList;
 
 public class NonePlayer extends Player{
     public NonePlayer(){
-        super(
-                new ArrayList<Card>(){{
-                    add(new CardNotFound());
-                    add(new CardNotFound());
-                    add(new CardNotFound());
-                }}
-        , "nadie");
+        super( "nadie");
     }
 }

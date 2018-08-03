@@ -1,10 +1,13 @@
-package com.mercadolibre.dojos;
+package com.mercadolibre.dojos.moves;
+
+import com.mercadolibre.dojos.Player;
+import com.mercadolibre.dojos.Point;
 
 public class NoneMove implements IMove{
     private String name;
     private Point points;
 
-    NoneMove(){
+    public NoneMove(){
         this.name = "no se cantó nada";
         this.points = new Point(1);
     }

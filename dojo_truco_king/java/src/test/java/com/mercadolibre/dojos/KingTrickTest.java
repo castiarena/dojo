@@ -1,6 +1,8 @@
 package com.mercadolibre.dojos;
 
-import com.sun.tools.corba.se.idl.constExpr.Not;
+import com.mercadolibre.dojos.cards.*;
+import com.mercadolibre.dojos.moves.IMove;
+import com.mercadolibre.dojos.moves.Truco;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -32,7 +34,7 @@ public class KingTrickTest {
 	 * opcion a- jugador 1 puede jugar el 3 de espada
 	 */
 	@Test
-	public void aPlayerWinARoundAndThrowOneCard  () {
+	public void aPlayerWinARoundAndThrowOneCard() throws Exception {
 		Player playerA = new Player(new ArrayList<Card>(){{
 				add(new UnoDeEspada());
 				add(new TresDeEspadas());
@@ -45,13 +47,8 @@ public class KingTrickTest {
 			}}, "Ricardo");
 
 		Round firstRound = new Round(playerA, playerB);
-		try{
-			firstRound.playerThrowFirstCard(playerA, new UnoDeEspada());
-		}catch(Exception error){ /*en este test no controlamos este error */ }
-
-		try {
-			firstRound.playerThrowSecondCard(playerB, new CuatroDeBasto());
-		}catch(Exception error){ /*en este test no controlamos este error */ }
+		firstRound.playerThrowFirstCard(playerA, new UnoDeEspada());
+		firstRound.playerThrowSecondCard(playerB, new CuatroDeBasto());
 
 		Card tresDeEspadas = new TresDeEspadas();
 
@@ -67,7 +64,7 @@ public class KingTrickTest {
      opcion b- jugador 2 intenta jugar y no puede.
      */
     @Test
-    public void aPlayerLoseARoundAndTryToThrowA  () {
+    public void aPlayerLoseARoundAndTryToThrowA() throws Exception{
 		Player playerA = new Player(new ArrayList<Card>(){{
 				add(new UnoDeEspada());
 				add(new TresDeEspadas());
@@ -81,12 +78,10 @@ public class KingTrickTest {
 
 		Round firstRound = new Round(playerA, playerB);
 
-		try{
-			firstRound.playerThrowFirstCard(playerA, new UnoDeEspada());
-		}catch(Exception error){ /*en este test no controlamos este error */ }
+		firstRound.playerThrowFirstCard(playerA, new UnoDeEspada());
 
+		Round round2 = firstRound.playerThrowSecondCard(playerB, new CuatroDeBasto());
 		try {
-			Round round2 = firstRound.playerThrowSecondCard(playerB, new CuatroDeBasto());
 			round2.playerThrowFirstCard( playerB, new TresDeEspadas() );
 		}catch (NotYourTurnException error){
 			Assert.assertEquals(error.getMessage(), "Tranca Raul, no vas vos");
@@ -100,7 +95,7 @@ public class KingTrickTest {
 	 *   el jugador 1 no tiene puntos y el jugador 2 tiene 1 punto
 	 */
 	@Test
-	public void aPlayerWinTheRoundWithOnePoint(){
+	public void aPlayerWinTheRoundWithOnePoint() throws Exception{
 		Player diego = new Player(new ArrayList<Card>(){{
 			add(new UnoDeEspada());
 			add(new TresDeEspadas());
@@ -112,31 +107,27 @@ public class KingTrickTest {
 			add(new UnoDeBasto());
 		}}, "Juli");
 
-		try{
-			Round firstRound = new Round(diego, juli);
-			firstRound.playerThrowFirstCard(diego, new UnoDeEspada());
-			Round secondRound = firstRound.playerThrowSecondCard(juli, new CuatroDeBasto());
+		Round firstRound = new Round(diego, juli);
+		firstRound.playerThrowFirstCard(diego, new UnoDeEspada());
+		Round secondRound = firstRound.playerThrowSecondCard(juli, new CuatroDeBasto());
 
-			secondRound.playerThrowFirstCard(diego, new TresDeEspadas());
-			Round thirdRound = secondRound.playerThrowSecondCard(juli, new UnoDeBasto());
+		secondRound.playerThrowFirstCard(diego, new TresDeEspadas());
+		Round thirdRound = secondRound.playerThrowSecondCard(juli, new UnoDeBasto());
 
-			thirdRound.playerThrowFirstCard(juli, new SieteDeBasto());
-			thirdRound.playerThrowSecondCard(diego, new CuatroDeCopas());
+		thirdRound.playerThrowFirstCard(juli, new SieteDeBasto());
+		thirdRound.playerThrowSecondCard(diego, new CuatroDeCopas());
 
-			Hand hand = new Hand(firstRound, secondRound, thirdRound);
-			Assert.assertEquals(hand.result(), "Ganó la mano Juli con 1 punto");
-			Assert.assertEquals(hand.summary(), "Primera jugada:\n" +
-					"  Ganó Diego, perdió Juli\n" +
-					"    no se cantó nada\n" +
-					"Segunda jugada:\n" +
-					"  Ganó Juli, perdió Diego\n" +
-					"    no se cantó nada\n" +
-					"Tercera jugada:\n" +
-					"  Ganó Juli, perdió Diego\n" +
-					"    no se cantó nada\n");
-		}catch(NotYourTurnException exception) {
-			// no controlamos esta excepcion
-		}
+		Hand hand = new Hand(firstRound, secondRound, thirdRound);
+		Assert.assertEquals(hand.result(), "Ganó la mano Juli con 1 punto");
+		Assert.assertEquals(hand.summary(), "Primera jugada:\n" +
+				"  Ganó Diego, perdió Juli\n" +
+				"    no se cantó nada\n" +
+				"Segunda jugada:\n" +
+				"  Ganó Juli, perdió Diego\n" +
+				"    no se cantó nada\n" +
+				"Tercera jugada:\n" +
+				"  Ganó Juli, perdió Diego\n" +
+				"    no se cantó nada\n");
 
 	}
 
@@ -148,7 +139,7 @@ public class KingTrickTest {
 	 * Pepe gana la mano con 2 puntos
 	 */
 	@Test
-	public void aPlayerWinWhitMoveTrick(){
+	public void aPlayerWinWhitMoveTrick() throws Exception{
 		Player pepe = new Player(new ArrayList<Card>(){{
 			add(new TresDeEspadas()); add(new UnoDeEspada()); add(new SieteDeBasto());
 		}}, "Pepe");
@@ -156,24 +147,22 @@ public class KingTrickTest {
 			add(new UnoDeBasto()); add(new TresDeCopas()); add(new CuatroDeBasto());
 		}}, "Juan");
 
-		try {
-			Round firstRound = new Round(pepe, juan);
-			firstRound.playerThrowFirstCard(pepe, new TresDeEspadas());
-			Round secondRound = firstRound.playerThrowSecondCard(juan, new UnoDeBasto());
-			secondRound.playerThrowFirstCard(juan, new TresDeCopas());
-			Round thirdRound = secondRound.playerThrowSecondCard(pepe, new UnoDeEspada());
+		Round firstRound = new Round(pepe, juan);
+		firstRound.playerThrowFirstCard(pepe, new TresDeEspadas());
+		Round secondRound = firstRound.playerThrowSecondCard(juan, new UnoDeBasto());
 
-			Sing trick = thirdRound.playerPickAMove(juan, new Truco());
-			pepe.want(trick);
+		IMove trick = new Truco(juan);
+		pepe.want(trick);
 
-			thirdRound.playerThrowFirstCard(pepe, new SieteDeBasto());
-			thirdRound.playerThrowSecondCard(juan, new CuatroDeBasto());
+		secondRound.playerThrowFirstCard(juan, new TresDeCopas());
+		Round thirdRound = secondRound.playerThrowSecondCard(pepe, new UnoDeEspada());
 
-			Hand mano = new Hand(firstRound, secondRound, thirdRound);
-			Assert.assertEquals(mano.result(), "Ganó la mano Pepe con 2 puntos");
-		}catch (NotYourTurnException exception) {
-			Assert.assertEquals(exception.getMessage(), "No vas vos");
-		}
+		thirdRound.playerThrowFirstCard(pepe, new SieteDeBasto());
+		thirdRound.playerThrowSecondCard(juan, new CuatroDeBasto());
+
+		Hand mano = new Hand(firstRound, secondRound, thirdRound);
+
+		Assert.assertEquals(mano.result(), "Ganó la mano Pepe con 2 puntos");
 	}
 	
 }

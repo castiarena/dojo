@@ -1,12 +1,16 @@
-package com.mercadolibre.dojos;
+package com.mercadolibre.dojos.moves;
+
+import com.mercadolibre.dojos.Player;
+import com.mercadolibre.dojos.Point;
 
 public class Move implements IMove {
     private String name;
     private Player player;
     protected Point points;
 
-    Move(String name) {
+    Move(String name, Player player) {
         this.name = name;
+        this.player = player;
     }
 
     @Override

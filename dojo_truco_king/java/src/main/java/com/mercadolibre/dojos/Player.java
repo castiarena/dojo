@@ -1,5 +1,11 @@
 package com.mercadolibre.dojos;
 
+import com.mercadolibre.dojos.cards.Card;
+import com.mercadolibre.dojos.cards.CardNotFound;
+import com.mercadolibre.dojos.moves.IMove;
+import com.mercadolibre.dojos.moves.Move;
+import com.mercadolibre.dojos.moves.NoneMove;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,11 +47,8 @@ public class Player {
         return heHasTheCard ? this : otherPlayer;
     }
 
-    public Sing pickMove(Move move){
-        Sing playerSing = new Sing(this, move);
-        this.propussedSingList.add(playerSing);
-
-        return playerSing;
+    public Move pickMove(Move move){
+        return move;
     }
 
     public void want(Sing sing){

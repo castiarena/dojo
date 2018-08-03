@@ -13,7 +13,7 @@ public class Hand {
         put(2, "Tercera jugada");
     }};
 
-    Hand(Round firstRound, Round secondRound, Round thirdRound) {
+    public Hand(Round firstRound, Round secondRound, Round thirdRound) {
         this.firstRound = firstRound;
         this.secondRound = secondRound;
         this.thirdRound = thirdRound;

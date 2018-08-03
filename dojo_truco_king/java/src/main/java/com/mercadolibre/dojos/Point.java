@@ -2,7 +2,7 @@ package com.mercadolibre.dojos;
 
 public class Point {
     private Integer amount;
-    Point(Integer amount) {
+    public Point(Integer amount) {
         this.amount = amount;
     }
 

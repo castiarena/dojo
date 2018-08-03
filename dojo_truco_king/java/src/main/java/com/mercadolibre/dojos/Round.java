@@ -1,5 +1,10 @@
 package com.mercadolibre.dojos;
 
+import com.mercadolibre.dojos.cards.Card;
+import com.mercadolibre.dojos.moves.IMove;
+import com.mercadolibre.dojos.moves.Move;
+import com.mercadolibre.dojos.moves.NoneMove;
+
 public class Round {
 
     private Card firstCard;
@@ -15,6 +20,12 @@ public class Round {
     public Round(Player firstPlayer, Player secondPlayer){
         this.firstPlayer = firstPlayer;
         this.secondPlayer = secondPlayer;
+    }
+
+    public Round(Player firstPlayer, Player secondPlayer, IMove move){
+        this.firstPlayer = firstPlayer;
+        this.secondPlayer = secondPlayer;
+        this.move = move;
     }
 
     public Round playerThrowFirstCard( Player player, Card card) throws NotYourTurnException{
@@ -38,7 +49,7 @@ public class Round {
         this.looserPlayer = this.secondPlayer.challengeLooserByCardOrDefault(this.winnerCard, this.firstPlayer);
 
         this.winnerPlayer.saveWinMove(this.move);
-        return new Round(winnerPlayer, looserPlayer);
+        return new Round(winnerPlayer, looserPlayer, this.move);
     }
 
     public String result(){
@@ -56,7 +67,7 @@ public class Round {
         return playerToChallenge.equals(this.winnerPlayer) ? playerToChallenge : this.winnerPlayer;
     }
 
-    public Sing playerPickAMove(Player player, Move move){
+    public Move playerPickAMove(Player player, Move move){
         this.move = move;
         return player.pickMove(move);
     }

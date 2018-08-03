@@ -1,8 +1,8 @@
-package com.mercadolibre.dojos;
+package com.mercadolibre.dojos.cards;
 
 import java.util.ArrayList;
 
-public class TresDeCopas extends Card{
+public class TresDeCopas extends Card {
     public TresDeCopas(){
         this.name = "Tres de Copas";
         this.winnerCards = new ArrayList<Card>(){{

@@ -2,11 +2,11 @@ package com.mercadolibre.dojos;
 
 import com.mercadolibre.dojos.cards.*;
 import com.mercadolibre.dojos.moves.IMove;
+import com.mercadolibre.dojos.moves.Move;
 import com.mercadolibre.dojos.moves.Truco;
 import org.junit.Assert;
 import org.junit.Test;
 
-import java.util.ArrayList;
 /**
  * Tests for the dojo.
  */
@@ -45,12 +45,9 @@ public class KingTrickTest {
 		Round firstRound = new Round(juan, ricardo);
 
 		firstRound.playerThrowFirstCard(juan, new UnoDeEspada());
-		firstRound.playerThrowSecondCard(ricardo, new CuatroDeBasto());
+		Round secondRound = firstRound.playerThrowLastCard(ricardo, new CuatroDeBasto());
 
-		Card tresDeEspadas = new TresDeEspadas();
-
-		Assert.assertTrue( tresDeEspadas.equals(juan.throwCard(tresDeEspadas)) );
-
+		secondRound.playerThrowFirstCard(juan, new TresDeEspadas());
 	}
 
     /**
@@ -72,7 +69,7 @@ public class KingTrickTest {
 
 		firstRound.playerThrowFirstCard(esteban, new UnoDeEspada());
 
-		Round round2 = firstRound.playerThrowSecondCard(raul, new CuatroDeBasto());
+		Round round2 = firstRound.playerThrowLastCard(raul, new CuatroDeBasto());
 		round2.playerThrowFirstCard( raul, new TresDeEspadas() );
     }
 
@@ -92,13 +89,13 @@ public class KingTrickTest {
 
 		Round firstRound = new Round(diego, juli);
 		firstRound.playerThrowFirstCard(diego, new UnoDeEspada());
-		Round secondRound = firstRound.playerThrowSecondCard(juli, new CuatroDeBasto());
+		Round secondRound = firstRound.playerThrowLastCard(juli, new CuatroDeBasto());
 
 		secondRound.playerThrowFirstCard(diego, new TresDeEspadas());
-		Round thirdRound = secondRound.playerThrowSecondCard(juli, new UnoDeBasto());
+		Round thirdRound = secondRound.playerThrowLastCard(juli, new UnoDeBasto());
 
 		thirdRound.playerThrowFirstCard(juli, new SieteDeBasto());
-		thirdRound.playerThrowSecondCard(diego, new CuatroDeCopas());
+		thirdRound.playerThrowLastCard(diego, new CuatroDeCopas());
 
 		Hand hand = new Hand(firstRound, secondRound, thirdRound);
 		Assert.assertEquals(hand.result(), "Ganó la mano Juli con 1 punto");
@@ -132,16 +129,16 @@ public class KingTrickTest {
 		Round firstRound = new Round(pepe, juan);
 		firstRound.playerThrowFirstCard(pepe, new TresDeEspadas());
 
-		Round secondRound = firstRound.playerThrowSecondCard(juan, new UnoDeBasto());
+		Round secondRound = firstRound.playerThrowLastCard(juan, new UnoDeBasto());
 
-		IMove trick = juan.sing(new Truco());
+		Move trick = juan.sing(new Truco());
 		pepe.want(trick);
 
 		secondRound.playerThrowFirstCard(juan, new TresDeCopas());
-		Round thirdRound = secondRound.playerThrowSecondCard(pepe, new UnoDeEspada());
+		Round thirdRound = secondRound.playerThrowLastCard(pepe, new UnoDeEspada());
 
 		thirdRound.playerThrowFirstCard(pepe, new SieteDeBasto());
-		thirdRound.playerThrowSecondCard(juan, new CuatroDeBasto());
+		thirdRound.playerThrowLastCard(juan, new CuatroDeBasto());
 
 		Hand mano = new Hand(firstRound, secondRound, thirdRound);
 

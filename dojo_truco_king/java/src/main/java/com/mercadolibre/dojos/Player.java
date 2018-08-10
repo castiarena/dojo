@@ -14,16 +14,16 @@ public class Player {
     private List<Card> cards = new ArrayList<>();
     private String name;
     private ArrayList<IMove> wantMoveList = new ArrayList<>();
-    private IMove winMove = (IMove) new NoneMove();
+    private IMove winMove = new NoneMove();
 
     public Player(String name) {
         this.name = name;
     }
 
-    public void upCards(Card firstCard, Card secondCard, Card thirCard){
+    public void upCards(Card firstCard, Card secondCard, Card thirdCard){
         this.cards.add(firstCard);
         this.cards.add(secondCard);
-        this.cards.add(thirCard);
+        this.cards.add(thirdCard);
     }
 
     public Move sing(Move move){
@@ -59,7 +59,7 @@ public class Player {
         return move;
     }
 
-    public void want(IMove sing){
+    public void want(Move sing){
         this.wantMoveList.add(sing);
     }
 

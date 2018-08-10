@@ -3,7 +3,7 @@ package com.mercadolibre.dojos.moves;
 import com.mercadolibre.dojos.Player;
 import com.mercadolibre.dojos.Point;
 
-public class Move implements IMove {
+public abstract class Move implements IMove {
     private String name;
     private Player player;
     protected Point points;

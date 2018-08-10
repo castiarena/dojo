@@ -37,7 +37,7 @@ public class Round {
         return this;
     }
 
-    public Round playerThrowSecondCard(Player player, Card card) throws NotYourTurnException{
+    public Round playerThrowLastCard(Player player, Card card) throws NotYourTurnException{
         if ( player.equals(this.firstPlayer)) {
             throw new NotYourTurnException(player);
         }

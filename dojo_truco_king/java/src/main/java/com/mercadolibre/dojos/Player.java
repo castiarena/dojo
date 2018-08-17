@@ -30,15 +30,14 @@ public class Player {
         return move;
     }
 
-    public Card throwCard(Card cardToPlay) {
-        boolean canPlayAndExistCard = this.cards.stream()
-            .anyMatch(
-                card -> card.equals(cardToPlay)
-            );
+    public Hand throwCard(Card cardToPlay, Hand hand) throws NotYourTurnException {
+        return hand.startRoundFor(this, cardToPlay);
+    }
 
-        return canPlayAndExistCard
-                ? cardToPlay
-                : new CardNotFound();
+    public Hand throwLastCard(Card cardToPlay, Hand hand) throws NotYourTurnException{
+
+        return hand.continueRoundFor(this, cardToPlay);
+
     }
 
     public Player challengeWinnerByCardOrDefault(Card cardToChanllege, Player otherPlayer) {

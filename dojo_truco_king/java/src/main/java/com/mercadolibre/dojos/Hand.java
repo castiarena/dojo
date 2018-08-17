@@ -1,60 +1,38 @@
 package com.mercadolibre.dojos;
 
-import java.util.*;
+import com.mercadolibre.dojos.cards.Card;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class Hand {
-    private Round firstRound;
-    private Round secondRound;
-    private Round thirdRound;
 
-    private Map<Integer,String> roundsNames = new HashMap<Integer, String>(){{
-        put(0, "Primera jugada");
-        put(1, "Segunda jugada");
-        put(2, "Tercera jugada");
-    }};
+    private List<Round> rounds = new ArrayList<>();
+    private Round actualRound;
+    private Player actualPlayer;
 
-    public Hand(Round firstRound, Round secondRound, Round thirdRound) {
-        this.firstRound = firstRound;
-        this.secondRound = secondRound;
-        this.thirdRound = thirdRound;
+
+    public Hand(Player player1) {
+        this.actualPlayer = player1;
     }
 
-    private void iterateForRounds(RoundIterator lambda){
-        ArrayList<Round> rounds = new ArrayList<Round>(){{
-            add(firstRound); add(secondRound); add(thirdRound);
-        }};
+    public Hand startRoundFor (Player player, Card card) throws NotYourTurnException {
 
-        for( int i = 0; i < rounds.size(); i++) {
-            lambda.eachRound( rounds.get(i), i);
+        if (player != this.actualPlayer){
+            throw new NotYourTurnException(player);
         }
+        this.actualRound = new Round(player, card);
+
+        return this;
     }
 
-    private Player winnerPlayer(ArrayList<Player> roundWinners){
-        Set<Player> uniquePlayer = new HashSet<>(roundWinners);
-        Map<Integer, Player> timesPlayerAppear = new HashMap<>();
-        for (Player key : uniquePlayer) {
-            timesPlayerAppear.put(Collections.frequency(roundWinners, key), key);
-        }
-        return timesPlayerAppear.get(2);
+    public Hand continueRoundFor (Player player, Card card) throws NotYourTurnException {
+
+        this.actualRound.playAgainst(player, card);
+        rounds.add(this.actualRound);
+
+        return this;
+
     }
 
-    public String result(){
-        ArrayList<Player> roundWinners = new ArrayList<>();
-        this.iterateForRounds((round, index) ->
-            roundWinners.add(round.challengeWinner(new NonePlayer()))
-        );
-
-        Player handWinner = this.winnerPlayer(roundWinners);
-        Point lastRoundPoints = thirdRound.totalPoints();
-        return "Ganó la mano " + handWinner.print() + " con " + lastRoundPoints.print();
-    }
-
-    public String summary() {
-        ArrayList<String> roundsResult = new ArrayList<>();
-        this.iterateForRounds((round, index) ->
-            roundsResult.add( this.roundsNames.get(index) + ":\n  " + round.result() )
-        );
-        return roundsResult.stream()
-                .reduce("", (roundResultA, roundResultB) -> roundResultA + roundResultB);
-    }
 }

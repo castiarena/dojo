@@ -40,6 +40,15 @@ public class Player {
 
     }
 
+    public Player challengeWith(Player player, Card cardTochallenge){
+
+        return (this.cards.stream()
+                .anyMatch(card -> card.equals(cardTochallenge)) ? this : player);
+
+    }
+
+
+
     public Player challengeWinnerByCardOrDefault(Card cardToChanllege, Player otherPlayer) {
         boolean meHasTheCard = this.cards.stream()
                 .anyMatch(card -> card.equals(cardToChanllege));

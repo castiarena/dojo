@@ -88,6 +88,28 @@ public class KingTrickTest {
 	@Test
 	public void aPlayerWinTheRoundWithOnePoint() throws Exception{
 
+		Player esteban = new Player("Esteban");
+
+		esteban.upCards(new UnoDeEspada(), new TresDeEspadas(), new CuatroDeCopas());
+
+		Player raul = new Player("Raul");
+
+		raul.upCards(new UnoDeBasto(), new CuatroDeBasto(), new SieteDeBasto());
+
+		Hand hand = new Hand(esteban);
+
+		hand = esteban.throwCard(new UnoDeEspada(), hand);
+
+		hand = raul.throwLastCard(new CuatroDeBasto(), hand);
+
+		hand = esteban.throwCard(new TresDeEspadas(), hand);
+
+		hand = raul.throwLastCard(new UnoDeBasto(), hand);
+
+		hand = raul.throwCard(new TresDeEspadas(), hand);
+
+		hand = esteban.throwLastCard(new UnoDeBasto(), hand);
+
 	}
 
 	/**

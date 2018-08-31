@@ -17,13 +17,20 @@ public class Round {
         firstCard = card;
     }
 
-    public void playAgainst (Player player, Card card) throws NotYourTurnException {
+    public Player playAgainst (Player player, Card card) throws NotYourTurnException {
 
         if (this.firstPlayer == player){
             throw new NotYourTurnException(player);
         }
         this.secondPlayer = player;
         this.secondCard = card;
+
+        Card winnerCard = this.secondCard.versus(this.firstCard);
+
+        Player winnerPlayer = this.firstPlayer.challengeWith(this.secondPlayer, winnerCard);
+
+        return winnerPlayer;
+
     }
 
 

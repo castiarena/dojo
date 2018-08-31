@@ -17,6 +17,6 @@ public class Card {
     }
 
     public Card versus(Card versusCard) {
-        return win(versusCard) ? this : versusCard;
+        return this.win(versusCard) ? this : versusCard;
     }
 }

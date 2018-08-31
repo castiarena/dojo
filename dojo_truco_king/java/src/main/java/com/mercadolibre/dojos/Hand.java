@@ -21,18 +21,22 @@ public class Hand {
         if (player != this.actualPlayer){
             throw new NotYourTurnException(player);
         }
-        this.actualRound = new Round(player, card);
+        this.actualRound = new Round(this.actualPlayer, card);
 
         return this;
     }
 
     public Hand continueRoundFor (Player player, Card card) throws NotYourTurnException {
 
-        this.actualRound.playAgainst(player, card);
+        Player roundWiner = this.actualRound.playAgainst(player, card);
+        this.actualPlayer = roundWiner;
+
         rounds.add(this.actualRound);
 
         return this;
 
     }
+
+
 
 }

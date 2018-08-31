@@ -12,6 +12,7 @@ public class Hand {
     private Player actualPlayer;
 
 
+
     public Hand(Player player1) {
         this.actualPlayer = player1;
     }
@@ -34,6 +35,10 @@ public class Hand {
         rounds.add(this.actualRound);
 
         return this;
+
+    }
+
+    public Point getPoints() {
 
     }
 

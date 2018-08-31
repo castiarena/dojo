@@ -1,10 +1,6 @@
 package com.mercadolibre.dojos;
 
 import com.mercadolibre.dojos.cards.*;
-import com.mercadolibre.dojos.moves.IMove;
-import com.mercadolibre.dojos.moves.Move;
-import com.mercadolibre.dojos.moves.Truco;
-import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
 

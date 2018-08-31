@@ -1,9 +1,10 @@
 package com.mercadolibre.dojos.cards;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Card {
-    protected List<Card> winnerCards;
+    protected List<Card> winnerCards = new ArrayList<>();
 
     protected String name;
     public boolean equals(Card card) {

@@ -1,6 +1,7 @@
 package com.mercadolibre.dojos;
 
 import com.mercadolibre.dojos.cards.*;
+import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
 
@@ -106,6 +107,8 @@ public class KingTrickTest {
 
 		hand = esteban.throwLastCard(new UnoDeBasto(), hand);
 
+		Assert.assertEquals(hand.pointsOf(esteban).print(), new Point(1).print());
+		Assert.assertEquals(hand.pointsOf(raul).print(), new Point(0).print());
 	}
 
 	/**

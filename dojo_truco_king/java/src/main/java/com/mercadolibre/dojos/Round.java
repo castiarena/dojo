@@ -11,6 +11,7 @@ public class Round {
     private Card secondCard;
     private Player firstPlayer;
     private Player secondPlayer;
+    private Player winnerPlayer;
 
     public Round(Player player, Card card) {
         firstPlayer = player;
@@ -27,11 +28,15 @@ public class Round {
 
         Card winnerCard = this.secondCard.versus(this.firstCard);
 
-        Player winnerPlayer = this.firstPlayer.challengeWith(this.secondPlayer, winnerCard);
+        this.winnerPlayer = this.firstPlayer.challengeWith(this.secondPlayer, winnerCard);
 
-        return winnerPlayer;
+        return this.winnerPlayer;
 
     }
 
+
+    public Player winnerPlayer(Player player) {
+        return player.equals(this.winnerPlayer) ? this.winnerPlayer : new NonePlayer();
+    }
 
 }
